@@ -1,10 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Twitter, Linkedin, Github, Instagram, Youtube, Twitch, Link } from 'lucide-react';
 import Tilt from 'react-parallax-tilt';
 import { getPublicProfileByNickname } from '@/lib/auth';
+import Image from 'next/image';
+
 
 // --- Helper map for social icons ---
 const SnapchatIcon = (props) => (
@@ -27,7 +29,18 @@ const socialIconMap = {
     telegram: { icon: <TelegramIcon />, name: 'Telegram' },
 };
 
-export default function PublicProfilePage() {
+// Loading component to be used as a fallback for Suspense
+function LoadingSpinner() {
+    return (
+        <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
+            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-indigo-500"></div>
+        </div>
+    );
+}
+
+
+// This component contains the actual page logic that uses the search parameters.
+function ProfileContent() {
     const searchParams = useSearchParams();
     const nickname = searchParams.get('user');
     const [userData, setUserData] = useState(null);
@@ -61,11 +74,7 @@ export default function PublicProfilePage() {
     }, [nickname]);
 
     if (loading) {
-        return (
-            <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
-                <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-indigo-500"></div>
-            </div>
-        );
+       return <LoadingSpinner />;
     }
 
     if (error || !userData) {
@@ -122,7 +131,7 @@ export default function PublicProfilePage() {
                         >
                             <div className="h-28" style={{ backgroundColor: userData.design?.colors?.primary || '#6366f1' }}></div>
                             <div className="relative -mt-16">
-                                <img src={userData.avatar_url || `https://placehold.co/128x128/c7d2fe/312e81?text=${userData.full_name?.charAt(0) || 'P'}`} alt="User Avatar" className="w-28 h-28 mx-auto rounded-full border-4 border-white dark:border-gray-800 shadow-lg object-cover" />
+                                <Image src={userData.avatar_url || `https://placehold.co/128x128/c7d2fe/312e81?text=${userData.full_name?.charAt(0) || 'P'}`} alt="User Avatar" width={112} height={112} className="w-28 h-28 mx-auto rounded-full border-4 border-white dark:border-gray-800 shadow-lg object-cover" />
                             </div>
                             <div className="pt-6 pb-8 px-6 text-center">
                                 <p className="text-sm" style={{ color: userData.design?.colors?.text || '#1f2937' }}>{userData.bio}</p>
@@ -138,19 +147,28 @@ export default function PublicProfilePage() {
                     </Tilt>
 
                     <div className="text-center mt-6">
-                        <a href="/" target="_blank" rel="noopener noreferrer" className="px-6 py-2 text-sm font-semibold bg-white/80 text-indigo-600 rounded-full hover:bg-white transition">
-                            Create Your Own ProCard
+                        <a href="https://miniyou.co.in" target="_blank" rel="noopener noreferrer" className="px-6 py-2 text-sm font-semibold bg-white/80 text-indigo-600 rounded-full hover:bg-white transition">
+                            Create Your Own MiniYou
                         </a>
                     </div>
                 </div>
                 
                 <footer className="absolute bottom-4 text-center w-full">
-                    <a href="/" target="_blank" rel="noopener noreferrer" className="text-white/50 text-xs hover:text-white/80 transition">
-                        Powered by ProCard
+                    <a href="https://miniyou.co.in" target="_blank" rel="noopener noreferrer" className="text-white/50 text-xs hover:text-white/80 transition">
+                        A MiniYou by MiniMe 😉 © 2025 MiniMe.
                     </a>
                 </footer>
             </main>
         </>
+    );
+}
+
+// The main page export now wraps the dynamic content in a Suspense boundary.
+export default function PublicProfilePage() {
+    return (
+        <Suspense fallback={<LoadingSpinner />}>
+            <ProfileContent />
+        </Suspense>
     );
 }
 
