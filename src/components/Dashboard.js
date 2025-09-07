@@ -2,29 +2,14 @@
 
 import { useState, useEffect, useCallback, memo } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import {
     Share2, Edit3, Palette, Link, QrCode, User, AtSign, Camera, Bot, Smile, UserSquare,
-    Trash2, PlusCircle, Check, Copy, ChevronDown, LogOut
+    Trash2, PlusCircle, Check, Copy, ChevronDown, LogOut, Download
 } from 'lucide-react';
 // FIX: Import each icon individually to resolve build errors with Next.js barrel file optimization.
-import { SlSocialTwitter } from 'react-icons/si';
-import { SiLinkedin } from 'react-icons/si';
-import { SiGithub } from 'react-icons/si';
-import { SiFacebook } from 'react-icons/si';
-import { SiInstagram } from 'react-icons/si';
-import { SiYoutube } from 'react-icons/si';
-import { SiTwitch } from 'react-icons/si';
-import { SiDiscord } from 'react-icons/si';
-import { SiReddit } from 'react-icons/si';
-import { SiMedium } from 'react-icons/si';
-import { SiBehance } from 'react-icons/si';
-import { SiSnapchat } from 'react-icons/si';
-import { SiTelegram } from 'react-icons/si';
-import { SiTinder } from 'react-icons/si';
-import { SiLeetcode } from 'react-icons/si';
-import { SiHackerrank } from 'react-icons/si';
-import { SiCodechef } from 'react-icons/si';
-import { SiStackoverflow } from 'react-icons/si';
+import { SlSocialTwitter } from "react-icons/sl";
+import { SiLinkedin, SiGithub, SiFacebook, SiInstagram, SiYoutube, SiTwitch, SiDiscord, SiReddit, SiMedium, SiBehance, SiSnapchat, SiTelegram, SiTinder, SiLeetcode, SiHackerrank, SiCodechef, SiStackoverflow, SiWhatsapp } from 'react-icons/si';
 
 import { motion, AnimatePresence } from 'framer-motion';
 import toast, { Toaster } from 'react-hot-toast';
@@ -118,7 +103,7 @@ export default function DashboardPage() {
                     <header className="flex flex-col sm:flex-row justify-between items-center mb-8">
                         <div className="text-center sm:text-left">
                             <h1 className="text-3xl lg:text-4xl font-bold text-white">Welcome back, {userData.full_name?.split(' ')[0]}!</h1>
-                            <p className="text-indigo-200">Here's your dashboard. Let's make your card shine.</p>
+                            <p className="text-indigo-200">Here&apos;s your dashboard. Let&apos;s make your card shine.</p>
                         </div>
                         <div className="flex items-center gap-3 mt-4 sm:mt-0">
                              <a href={`/profiles?user=${userData.nickname}`} target="_blank" rel="noopener noreferrer" className="px-4 py-2 font-semibold text-indigo-600 bg-white rounded-lg hover:bg-indigo-100 transition">
@@ -141,7 +126,7 @@ export default function DashboardPage() {
                                 >
                                     <div className="h-28" style={{ backgroundColor: userData.design?.colors?.primary || '#6366f1' }}></div>
                                     <div className="relative -mt-16">
-                                        <img src={userData.avatar_url || `https://placehold.co/128x128/c7d2fe/312e81?text=${userData.full_name?.charAt(0) || 'P'}`} alt="User Avatar" className="w-28 h-28 mx-auto rounded-full border-4 border-white dark:border-gray-800 shadow-lg object-cover" />
+                                        <Image src={userData.avatar_url || `https://placehold.co/128x128/c7d2fe/312e81?text=${userData.full_name?.charAt(0) || 'P'}`} alt="User Avatar" width={112} height={112} className="w-28 h-28 mx-auto rounded-full border-4 border-white dark:border-gray-800 shadow-lg object-cover" />
                                     </div>
                                     <div className="pt-6 pb-8 px-6 text-center">
                                         <h1 className="text-2xl font-bold" style={{ color: userData.design?.colors?.text || '#1f2937' }}>{userData.full_name}</h1>
@@ -186,13 +171,15 @@ export default function DashboardPage() {
 
 // --- Sub-components for the dashboard (memoized for performance) ---
 
-const TabButton = memo(({ icon, label, activeTab, onClick }) => (
-    <button onClick={onClick} className={`flex items-center gap-2 px-3 sm:px-4 py-2 font-semibold text-sm transition ${activeTab === label.toLowerCase() ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-500'}`}>
-        {icon} <span className="hidden sm:inline">{label}</span>
-    </button>
-));
+const TabButton = memo(function TabButton({ icon, label, activeTab, onClick }) {
+    return (
+        <button onClick={onClick} className={`flex items-center gap-2 px-3 sm:px-4 py-2 font-semibold text-sm transition ${activeTab === label.toLowerCase() ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-500'}`}>
+            {icon} <span className="hidden sm:inline">{label}</span>
+        </button>
+    );
+});
 
-const ProfileEditor = memo(({ user, userData, setUserData }) => {
+const ProfileEditor = memo(function ProfileEditor({ user, userData, setUserData }) {
     const [isSaving, setIsSaving] = useState(false);
     const [avatarFile, setAvatarFile] = useState(null);
     const [avatarPreview, setAvatarPreview] = useState(userData.avatar_url);
@@ -245,7 +232,7 @@ const ProfileEditor = memo(({ user, userData, setUserData }) => {
             
             <div className="flex items-center gap-4">
                 <div className="relative">
-                    <img src={avatarPreview || `https://placehold.co/128x128/c7d2fe/312e81?text=${userData.full_name?.charAt(0) || 'P'}`} alt="Avatar Preview" className="w-24 h-24 rounded-full object-cover"/>
+                    <Image src={avatarPreview || `https://placehold.co/128x128/c7d2fe/312e81?text=${userData.full_name?.charAt(0) || 'P'}`} alt="Avatar Preview" width={96} height={96} className="w-24 h-24 rounded-full object-cover"/>
                     <label htmlFor="avatar-upload" className="absolute -bottom-2 -right-2 flex items-center justify-center w-8 h-8 bg-indigo-600 rounded-full text-white cursor-pointer hover:bg-indigo-700 transition">
                         <Camera size={16} />
                         <input id="avatar-upload" type="file" accept="image/*" onChange={handleAvatarChange} className="hidden" />
@@ -272,7 +259,7 @@ const ProfileEditor = memo(({ user, userData, setUserData }) => {
     );
 });
 
-const AvatarEditor = memo(({ user, userData, setUserData }) => {
+const AvatarEditor = memo(function AvatarEditor({ user, userData, setUserData }) {
     const [seed, setSeed] = useState(userData.nickname || 'procard');
     const [style, setStyle] = useState('adventurer');
     const [isSaving, setIsSaving] = useState(false);
@@ -312,7 +299,7 @@ const AvatarEditor = memo(({ user, userData, setUserData }) => {
             <h3 className="text-xl font-bold text-gray-800 dark:text-white">Generate an Avatar</h3>
             <div className="flex flex-col md:flex-row items-center gap-6">
                 <div className="w-32 h-32 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center overflow-hidden">
-                    <img src={avatarUrl} alt="Avatar Preview" className="w-full h-full"/>
+                    <Image src={avatarUrl} alt="Avatar Preview" width={128} height={128} className="w-full h-full"/>
                 </div>
                 <div className="flex-1 w-full space-y-4">
                     <div>
@@ -343,7 +330,7 @@ const AvatarEditor = memo(({ user, userData, setUserData }) => {
     );
 });
 
-const DesignEditor = memo(({ user, userData, setUserData }) => {
+const DesignEditor = memo(function DesignEditor({ user, userData, setUserData }) {
     const [isSaving, setIsSaving] = useState(false);
     const [isLinkModalOpen, setIsLinkModalOpen] = useState(false);
 
@@ -437,7 +424,7 @@ const DesignEditor = memo(({ user, userData, setUserData }) => {
     );
 });
 
-const AddLinkModal = memo(({ isOpen, onClose, onAddLink }) => {
+const AddLinkModal = memo(function AddLinkModal({ isOpen, onClose, onAddLink }) {
     const [step, setStep] = useState(1);
     const [selectedPlatform, setSelectedPlatform] = useState(null);
     const [url, setUrl] = useState('');
@@ -532,7 +519,7 @@ const AddLinkModal = memo(({ isOpen, onClose, onAddLink }) => {
 });
 
 
-const SharePanel = memo(({ link, userData }) => {
+const SharePanel = memo(function SharePanel({ link, userData }) {
     const [copied, setCopied] = useState(false);
 
     const shareMessage = `Check out my digital identity on MiniYou! Create your own at miniyou.co.in ✨\n\n${link}`;
@@ -566,7 +553,7 @@ const SharePanel = memo(({ link, userData }) => {
                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">One-click Share</label>
                  <div className="flex gap-2">
                      <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareMessage)}`} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-2 p-2 bg-[#1DA1F2] text-white rounded-lg hover:opacity-90 transition">
-                         <SiTwitter/> Twitter
+                         <SlSocialTwitter/> Twitter
                      </a>
                      <a href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodedLink}`} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-2 p-2 bg-[#0A66C2] text-white rounded-lg hover:opacity-90 transition">
                          <SiLinkedin/> LinkedIn
@@ -587,7 +574,7 @@ const SharePanel = memo(({ link, userData }) => {
             {/* QR Code Section */}
             <div className="text-center">
                 <div className="relative inline-block p-4 bg-white rounded-lg shadow-md">
-                    <img src={qrCodeUrl} alt="QR Code" className="w-40 h-40"/>
+                    <Image src={qrCodeUrl} alt="QR Code" width={160} height={160} className="w-40 h-40"/>
                     <button onClick={handleDownloadQR} className="absolute top-2 right-2 p-1.5 bg-black/50 text-white rounded-full hover:bg-black/70 transition">
                         <Download size={14}/>
                     </button>
@@ -599,32 +586,38 @@ const SharePanel = memo(({ link, userData }) => {
     );
 });
 
-const InputWithIcon = memo(({ icon, label, ...props }) => (
-    <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{label}</label>
-        <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">{icon}</div>
-            <input {...props} className="w-full pl-10 p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-600" />
+const InputWithIcon = memo(function InputWithIcon({ icon, label, ...props }) {
+    return (
+        <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{label}</label>
+            <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">{icon}</div>
+                <input {...props} className="w-full pl-10 p-2 border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-600" />
+            </div>
         </div>
-    </div>
-));
+    );
+});
 
-const ColorPicker = memo(({ label, name, value, onChange }) => (
-    <div className="flex flex-col items-center">
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{label}</label>
-        <div className="relative w-12 h-12">
-            <input type="color" name={name} value={value || '#ffffff'} onChange={onChange} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
-            <div className="w-full h-full rounded-full border-2 border-gray-300" style={{ backgroundColor: value }}></div>
+const ColorPicker = memo(function ColorPicker({ label, name, value, onChange }) {
+    return (
+        <div className="flex flex-col items-center">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{label}</label>
+            <div className="relative w-12 h-12">
+                <input type="color" name={name} value={value || '#ffffff'} onChange={onChange} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+                <div className="w-full h-full rounded-full border-2 border-gray-300" style={{ backgroundColor: value }}></div>
+            </div>
         </div>
-    </div>
-));
+    );
+});
 
-const RadioPill = memo(({ id, name, value, checked, onChange, label }) => (
-    <div>
-        <input type="radio" id={id} name={name} value={value} checked={checked} onChange={onChange} className="hidden" />
-        <label htmlFor={id} className={`block cursor-pointer px-4 py-2 rounded-full text-sm font-semibold transition ${checked ? 'bg-indigo-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200'}`}>
-            {label}
-        </label>
-    </div>
-));
+const RadioPill = memo(function RadioPill({ id, name, value, checked, onChange, label }) {
+    return (
+        <div>
+            <input type="radio" id={id} name={name} value={value} checked={checked} onChange={onChange} className="hidden" />
+            <label htmlFor={id} className={`block cursor-pointer px-4 py-2 rounded-full text-sm font-semibold transition ${checked ? 'bg-indigo-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200'}`}>
+                {label}
+            </label>
+        </div>
+    );
+});
 
