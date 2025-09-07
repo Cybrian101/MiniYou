@@ -1,0 +1,42 @@
+/* SignupForm.css */
+
+/* Registering the --angle property */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* Main animated border container */
+.moving-border {
+  position: relative;
+  padding: 6px;
+  border-radius: 1.75rem;
+  background: transparent;
+  z-index: 1;
+  isolation: isolate; /* Keeps shadow effects inside */
+}
+
+.moving-border::before,
+.moving-border::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  background: linear-gradient(var(--angle), #00f0ff, #3b82f6, #ec4899);
+  border-radius: inherit;
+  animation: rotate 10s linear infinite;
+}
+
+.moving-border::after {
+  filter: blur(20px);
+}
+
+@keyframes rotate {
+  0% {
+    --angle: 0deg;
+  }
+  100% {
+    --angle: 360deg;
+  }
+}
