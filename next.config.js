@@ -18,8 +18,17 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'quickchart.io',
       }
+      
     ],
   },
 };
 
+// next.config.js
+module.exports = {
+  images: {
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'inline',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+  },
+};
 module.exports = nextConfig;

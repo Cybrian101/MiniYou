@@ -131,7 +131,7 @@ function ProfileContent() {
                         >
                             <div className="h-28" style={{ backgroundColor: userData.design?.colors?.primary || '#6366f1' }}></div>
                             <div className="relative -mt-16">
-                                <Image src={userData.avatar_url || `https://placehold.co/128x128/c7d2fe/312e81?text=${userData.full_name?.charAt(0) || 'P'}`} alt="User Avatar" width={112} height={112} className="w-28 h-28 mx-auto rounded-full border-4 border-white dark:border-gray-800 shadow-lg object-cover" />
+                                <Image src={userData.avatar_url || `https://placehold.co/128x128/c7d2fe/312e81?text=${userData.full_name?.charAt(0) || 'P'}`} alt="User Avatar" width={112} height={112} className="w-28 h-28 mx-auto rounded-full border-4 border-white dark:border-gray-800 shadow-lg object-cover" unoptimized />
                             </div>
                             <div className="pt-6 pb-8 px-6 text-center">
                                 <p className="text-sm" style={{ color: userData.design?.colors?.text || '#1f2937' }}>{userData.bio}</p>
