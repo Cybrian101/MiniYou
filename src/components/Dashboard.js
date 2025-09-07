@@ -299,7 +299,7 @@ const AvatarEditor = memo(function AvatarEditor({ user, userData, setUserData })
             <h3 className="text-xl font-bold text-gray-800 dark:text-white">Generate an Avatar</h3>
             <div className="flex flex-col md:flex-row items-center gap-6">
                 <div className="w-32 h-32 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center overflow-hidden">
-                    <Image src={avatarUrl} alt="Avatar Preview" width={128} height={128} className="w-full h-full"/>
+                    <Image src={avatarUrl} alt="Avatar Preview" width={128} height={128} className="w-full h-full" unoptimized />
                 </div>
                 <div className="flex-1 w-full space-y-4">
                     <div>
