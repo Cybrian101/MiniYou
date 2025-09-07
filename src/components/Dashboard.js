@@ -182,11 +182,11 @@ const TabButton = memo(function TabButton({ icon, label, activeTab, onClick }) {
 const ProfileEditor = memo(function ProfileEditor({ user, userData, setUserData }) {
     const [isSaving, setIsSaving] = useState(false);
     const [avatarFile, setAvatarFile] = useState(null);
-    const [avatarPreview, setAvatarPreview] = useState(userData.avatar_url);
+    // const [avatarPreview, setAvatarPreview] = useState(userData.avatar_url);
 
-    useEffect(() => {
-        setAvatarPreview(userData.avatar_url);
-    }, [userData.avatar_url]);
+    // useEffect(() => {
+    //     setAvatarPreview(userData.avatar_url);       NOT IN USE FOR NOW
+    // }, [userData.avatar_url]);
 
     const handleDataChange = useCallback((field, value) => {
         setUserData(prev => ({ ...prev, [field]: value }));
@@ -232,7 +232,7 @@ const ProfileEditor = memo(function ProfileEditor({ user, userData, setUserData 
             
             <div className="flex items-center gap-4">
                 <div className="relative">
-                    <Image src={avatarPreview || `https://placehold.co/128x128/c7d2fe/312e81?text=${userData.full_name?.charAt(0) || 'P'}`} alt="Avatar Preview" width={96} height={96} className="w-24 h-24 rounded-full object-cover"/>
+                    <Image src={userData.avatar_url || `https://placehold.co/128x128/c7d2fe/312e81?text=${userData.full_name?.charAt(0) || 'P'}`} alt="Avatar Preview" width={96} height={96} className="w-24 h-24 rounded-full object-cover"/>
                     <label htmlFor="avatar-upload" className="absolute -bottom-2 -right-2 flex items-center justify-center w-8 h-8 bg-indigo-600 rounded-full text-white cursor-pointer hover:bg-indigo-700 transition">
                         <Camera size={16} />
                         <input id="avatar-upload" type="file" accept="image/*" onChange={handleAvatarChange} className="hidden" />
