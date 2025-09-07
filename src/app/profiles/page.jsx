@@ -171,4 +171,6 @@ export default function PublicProfilePage() {
         </Suspense>
     );
 }
+// ⬇️ This disables static rendering for the route
+export const dynamic = 'force-dynamic';
 
