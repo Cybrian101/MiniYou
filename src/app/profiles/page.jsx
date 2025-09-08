@@ -2,41 +2,56 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Twitter, Linkedin, Github, Instagram, Youtube, Twitch, Link } from 'lucide-react';
+
+import {
+  FaDiscord,
+  FaReddit,
+  FaMedium,
+  FaFacebook,
+  FaTwitter,
+  FaLinkedin,
+  FaGithub,
+  FaInstagram,
+  FaYoutube,
+  FaTwitch,
+  FaLink,
+} from 'react-icons/fa';
+
+import { SiSnapchat, SiTelegram, SiTinder } from 'react-icons/si'; // <-- Correct packages for these
+
 import Tilt from 'react-parallax-tilt';
 import { getPublicProfileByNickname } from '@/lib/auth';
 import Image from 'next/image';
 
-
-// --- Helper map for social icons ---
-const SnapchatIcon = (props) => (
-    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2.7c-5.3 0-9.5 4-9.5 9s4.2 9 9.5 9c2.3 0 4.2-.7 5.7-1.8-1.5-.4-2.8-.7-4.2-.7-3.3 0-6.2-2.5-6.2-5.5s2.9-5.5 6.2-5.5c1.4 0 2.7.3 4.2.7-1.5-1.1-3.4-1.8-5.7-1.8z" />
-    </svg>
-);
-const TelegramIcon = (props) => (
-    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg>
-);
-
+// socialIconMap
 const socialIconMap = {
-    twitter: { icon: <Twitter />, name: 'Twitter' },
-    linkedin: { icon: <Linkedin />, name: 'LinkedIn' },
-    github: { icon: <Github />, name: 'GitHub' },
-    instagram: { icon: <Instagram />, name: 'Instagram' },
-    youtube: { icon: <Youtube />, name: 'YouTube' },
-    twitch: { icon: <Twitch />, name: 'Twitch' },
-    snapchat: { icon: <SnapchatIcon />, name: 'Snapchat' },
-    telegram: { icon: <TelegramIcon />, name: 'Telegram' },
+  facebook: { icon: <FaFacebook />, name: 'Facebook' },
+  twitter: { icon: <FaTwitter />, name: 'Twitter' },
+  linkedin: { icon: <FaLinkedin />, name: 'LinkedIn' },
+  github: { icon: <FaGithub />, name: 'GitHub' },
+  instagram: { icon: <FaInstagram />, name: 'Instagram' },
+  youtube: { icon: <FaYoutube />, name: 'YouTube' },
+  twitch: { icon: <FaTwitch />, name: 'Twitch' },
+  snapchat: { icon: <SiSnapchat />, name: 'Snapchat' },   // fixed here
+  telegram: { icon: <SiTelegram />, name: 'Telegram' },   // fixed here
+  reddit: { icon: <FaReddit />, name: 'Reddit' },
+  medium: { icon: <FaMedium />, name: 'Medium' },
+  tinder: { icon: <SiTinder />, name: 'Tinder' },         // fixed here
+  discord: { icon: <FaDiscord />, name: 'Discord' },
 };
+
 
 // Loading component to be used as a fallback for Suspense
 function LoadingSpinner() {
-    return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
-            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-indigo-500"></div>
-        </div>
-    );
+  return (
+    <div className="flex items-center justify-center min-h-screen w-full bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 p-4 sm:p-6 lg:p-8">
+      <div className="w-16 h-16 border-4 border-black/70 border-dashed rounded-full animate-spin shadow-lg shadow-blue-500/30"></div>
+    </div>
+  );
 }
+
+
+
 
 
 // This component contains the actual page logic that uses the search parameters.
@@ -46,6 +61,7 @@ function ProfileContent() {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    
 
     useEffect(() => {
         if (!nickname) {
@@ -88,33 +104,53 @@ function ProfileContent() {
     return (
         <>
             <style jsx="true" global="true">{`
-                body {
-                    overflow: hidden;
-                }
-                .cosmic-background {
-                    background: linear-gradient(250deg, #1e0033, #3d1f7c, #0d0628);
-                    background-size: 400% 400%;
-                    animation: gradientAnimation 15s ease infinite;
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    z-index: -1;
-                }
+  body {
+    overflow: hidden;
+  }
 
-                @keyframes gradientAnimation {
-                    0% { background-position: 0% 50%; }
-                    50% { background-position: 100% 50%; }
-                    100% { background-position: 0% 50%; }
-                }
-                
-                @keyframes float {
-                  0% { transform: translateY(0px); }
-                  50% { transform: translateY(-20px); }
-                  100% { transform: translateY(0px); }
-                }
-            `}</style>
+  .cosmic-background {
+    background: linear-gradient(to bottom right, #4f46e5, #9333ea, #ec4899); /* indigo-600, purple-600, pink-600 */
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+
+  @keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
+  }
+
+  @keyframes spin-slow {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes spin-reverse-slow {
+    0% { transform: rotate(360deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  .animate-spin-slow {
+    animation: spin-slow 2s linear infinite;
+  }
+
+  .animate-spin-reverse-slow {
+    animation: spin-reverse-slow 3s linear infinite;
+  }
+`}</style>
+
             <div className="cosmic-background"></div>
             <main className="flex items-center justify-center min-h-screen w-full p-4 relative overflow-hidden">
                 {/* Showcase Container */}
@@ -138,7 +174,7 @@ function ProfileContent() {
                                 <div className={`flex justify-center items-center gap-4 mt-6 ${userData.design?.iconLayout === 'vertical' ? 'flex-col' : ''}`}>
                                     {Array.isArray(userData.socialLinks) && userData.socialLinks.map((link, index) => (
                                         <a key={index} href={link.url} target="_blank" rel="noopener noreferrer" className="transition-transform hover:scale-125" style={{ color: userData.design?.colors?.primary || '#6366f1' }}>
-                                            {socialIconMap[link.platform]?.icon || <Link size={24} />}
+                                            {socialIconMap[link.platform]?.icon || <FaLink />}
                                         </a>
                                     ))}
                                 </div>

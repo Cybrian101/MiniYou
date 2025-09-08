@@ -144,7 +144,7 @@ export default function LandingPage() {
                                 </div>
                                 <div className="pt-16 pb-8 px-6 text-center">
                                     <h2 className="text-xl font-bold text-gray-500 tracking-widest uppercase">Meme Master</h2>
-                                    <h1 className="text-3xl font-bold text-gray-800 mt-1">Shuri</h1>
+                                    <h1 className="text-3xl font-bold text-gray-800 mt-1">Sam Rivera</h1>
                                     <div className="flex justify-center items-center gap-4 mt-6">
                                         <SocialIcon href="#" icon={<SiGithub size={24} />} hoverColorClass="text-gray-800" />
                                         <SocialIcon href="#" icon={<SiLinkedin size={24} />} hoverColorClass="text-blue-600" />

@@ -118,7 +118,7 @@ export default function DashboardPage() {
                     {/* Main Dashboard Grid */}
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         {/* Left Column: Real-time Profile Card Preview */}
-                        <div className="lg:col-span-1 space-y-8 lg:sticky lg:top-8">
+                        <div className="lg:col-span-1 space-y-8">
                             <Tilt glareEnable={true} glareMaxOpacity={0.1} scale={1.05} className="animate-subtle-float">
                                 <div
                                     className="transition-all duration-300 w-full max-w-sm mx-auto rounded-2xl shadow-2xl overflow-hidden"
